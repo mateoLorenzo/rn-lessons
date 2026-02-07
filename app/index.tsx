@@ -1,18 +1,31 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 5 }}>
-        Useful lessons for React Native
-      </Text>
-      <Text>Navigate between branches</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Useful lessons for React Native</Text>
+      <Text style={styles.subtitle}>Navigate between branches</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#121212",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: "#FFFFFF",
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "400",
+    marginBottom: 5,
+    color: "#CCCCCC",
+  },
+});
