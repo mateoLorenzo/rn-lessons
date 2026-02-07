@@ -21,11 +21,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
     color: "#FFFFFF",
+    fontFamily: "FunnelDisplay-Medium",
   },
   subtitle: {
     fontSize: 16,
     fontWeight: "400",
     marginBottom: 5,
     color: "#CCCCCC",
+    fontFamily: "Inter-Regular",
   },
 });
