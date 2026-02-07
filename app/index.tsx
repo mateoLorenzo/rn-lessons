@@ -37,7 +37,7 @@ export default function Index() {
 
   return (
     <Pressable
-      style={{ ...styles.container, paddingTop: top }}
+      style={{ ...styles.container, paddingTop: top + 40 }}
       onPress={() => {
         Keyboard.dismiss();
       }}
@@ -66,17 +66,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#121212",
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 5,
     color: "#FFFFFF",
+    fontFamily: "FunnelDisplay-Medium",
   },
-
   subtitle: {
     fontSize: 16,
     fontWeight: "400",
     marginBottom: 10,
-    color: "#FFFFFF",
+    color: "#CCCCCC",
+    fontFamily: "Inter-Regular",
   },
   button: {
     backgroundColor: "#A6FF00",
@@ -90,13 +91,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     padding: 5,
+    fontFamily: "FunnelDisplay-SemiBold",
   },
   input: {
     borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    borderRadius: 8,
+    padding: 16,
+    fontFamily: "Inter-Regular",
+    backgroundColor: "#1A1A1A",
+    borderColor: "#333",
   },
   spacer: {
     flexGrow: 1,
