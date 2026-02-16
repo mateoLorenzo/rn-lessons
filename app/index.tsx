@@ -1,108 +1,116 @@
-import {
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { useKeyboardHandler } from "react-native-keyboard-controller";
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
+import { Button } from "@/src/Button";
+import { ButtonWithLoader } from "@/src/ButtonWithLoader";
+import { colors } from "@/src/theme/colors";
+import { fonts } from "@/src/theme/fonts";
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Index() {
-  const { top } = useSafeAreaInsets();
-  const keyboardHeight = useSharedValue(0);
-  const progress = useSharedValue(0);
+  const { top, bottom } = useSafeAreaInsets();
+  const [isLoading, setIsLoading] = useState(false);
 
-  useKeyboardHandler({
-    onMove: (event) => {
-      "worklet";
-      keyboardHeight.value = event.height;
-      progress.value = event.progress;
-    },
-  });
-
-  const keyboardSpacerStyle = useAnimatedStyle(() => {
-    "worklet";
-    // 20 => Initial spacing value (when keyboard is closed)
-    // 0 => Final spacing value (when keyboard is open)
-    const baseHeight = interpolate(progress.value, [0, 1], [20, 0]);
-    return { height: keyboardHeight.value + baseHeight };
-  });
+  const simulateLoading = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 2500);
+  };
 
   return (
-    <Pressable
-      style={{ ...styles.container, paddingTop: top + 40 }}
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
+    <ScrollView
+      style={[styles.container, { paddingTop: top + 40 }]}
+      contentContainerStyle={{ paddingBottom: bottom + 20 }}
     >
-      <Text style={styles.title}>Keyboard handling</Text>
-      <Text style={styles.subtitle}>Focus input to show keyboard</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Type something"
-        placeholderTextColor="#808080"
-      />
-      <View style={styles.spacer} />
+      {/* ---- Section: Button ---- */}
+      <Text style={styles.sectionTitle}>Button</Text>
+      <Text style={styles.sectionSubtitle}>
+        Pressable with animated opacity feedback
+      </Text>
 
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText}>Iniciar sesion</Text>
-      </Pressable>
-      <Animated.View style={keyboardSpacerStyle} />
-    </Pressable>
+      <View style={styles.card}>
+        <Text style={styles.label}>Default</Text>
+        <Button onPress={() => {}} style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>Press me</Text>
+        </Button>
+      </View>
+
+      {/* ---- Section: ButtonWithLoader ---- */}
+      <View style={styles.divider} />
+      <Text style={styles.sectionTitle}>ButtonWithLoader</Text>
+      <Text style={styles.sectionSubtitle}>
+        Animated transitions between states
+      </Text>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Interactive — tap to load</Text>
+        <ButtonWithLoader onPress={simulateLoading} isLoading={isLoading}>
+          Iniciar sesion
+        </ButtonWithLoader>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#121212",
+    backgroundColor: colors.neutral.background,
+    paddingHorizontal: 20,
   },
-  title: {
+  sectionTitle: {
     fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#FFFFFF",
-    fontFamily: "FunnelDisplay-Medium",
+    fontFamily: fonts.funnelDisplay.bold,
+    color: colors.neutral.textPrimary,
+    marginBottom: 4,
   },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: "400",
-    marginBottom: 10,
-    color: "#CCCCCC",
-    fontFamily: "Inter-Regular",
+  sectionSubtitle: {
+    fontSize: 14,
+    fontFamily: fonts.inter.regular,
+    color: colors.neutral.textSecondary,
+    marginBottom: 16,
   },
-  button: {
-    backgroundColor: "#A6FF00",
-    padding: 10,
+  card: {
+    backgroundColor: colors.neutral.surface,
     borderRadius: 12,
-    width: "100%",
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.neutral.border,
+  },
+  label: {
+    fontSize: 13,
+    fontFamily: fonts.inter.medium,
+    color: colors.neutral.textSecondary,
+    marginBottom: 12,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.neutral.border,
+    marginVertical: 24,
+  },
+  primaryButton: {
+    backgroundColor: colors.accent.primary,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
     alignItems: "center",
   },
-  buttonText: {
-    color: "#2A2A2A",
+  primaryButtonText: {
+    color: colors.accent.neutralDark,
     fontSize: 16,
-    fontWeight: "600",
-    padding: 5,
-    fontFamily: "FunnelDisplay-SemiBold",
+    fontFamily: fonts.funnelDisplay.semiBold,
   },
-  input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 16,
-    fontFamily: "Inter-Regular",
-    backgroundColor: "#1A1A1A",
-    borderColor: "#333",
+  disabledButton: {
+    backgroundColor: colors.neutral.overlayAccent,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    alignItems: "center",
   },
-  spacer: {
-    flexGrow: 1,
-    flexShrink: 1,
+  disabledButtonText: {
+    color: colors.neutral.surface,
+    fontSize: 16,
+    fontFamily: fonts.funnelDisplay.semiBold,
   },
 });
